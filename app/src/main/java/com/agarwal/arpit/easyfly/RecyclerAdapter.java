@@ -12,8 +12,10 @@ import com.agarwal.arpit.easyfly.flighdataitemclasses.FlightItemDao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by arpitagarwal on 12/09/17.
@@ -22,10 +24,16 @@ import java.util.Locale;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     private List<FlightItemDao> mDataList;
+    private Map<String, String> aLMap = new HashMap<>();
+    private Map<String, String> aPMap = new HashMap<>();
+    private Map<String, String> pLMap = new HashMap<>();
 
 
-    public RecyclerAdapter(List<FlightItemDao> dataList) {
+    public RecyclerAdapter(List<FlightItemDao> dataList, Map<String, String> airlineCodeMap, Map<String, String> airportCodeMap, Map<String, String> providersList) {
         mDataList = dataList;
+        aLMap = airlineCodeMap;
+        aPMap = airportCodeMap;
+        pLMap = providersList;
     }
 
     @Override
@@ -40,15 +48,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         FlightItemDao data = mDataList.get(position);
-        holder.ori.setText(data.getOriginCode());
-        holder.dest.setText(data.getDestinationCode());
+        holder.ori.setText(aPMap.get(data.getOriginCode()));
+        holder.dest.setText(aPMap.get(data.getDestinationCode()));
         holder.dept_time.setText(getTimeStamp(data.getDepartureTime()));
         holder.arr_time.setText(getTimeStamp(data.getArrivalTime()));
         holder.provider_fare.setText("");
         for (FareItemDao itemDao : data.getFares()) {
-            holder.provider_fare.append(itemDao.getProviderId() + " - " + itemDao.getFare() + " , ");
+            holder.provider_fare.append(pLMap.get(itemDao.getProviderId()) + " - " + itemDao.getFare() + " , ");
         }
-        holder.airline.setText(data.getAirlineCode());
+        holder.airline.setText(aLMap.get(data.getAirlineCode()));
         holder.className.setText(data.getClassName());
 
     }

@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,9 @@ public class HomeActivity extends AppCompatActivity implements ResponseListener,
     private RecyclerAdapter recyclerAdapter;
     private ParseFlightDataResponse parseDataResponse;
     private List<FlightItemDao> dataList = new ArrayList<>();
+    private Map<String, String> airlineCodeMap = new HashMap<>();
+    private Map<String, String> airportCodeMap = new HashMap<>();
+    private Map<String, String> providersList = new HashMap<>();
     private NetworkClass ob;
     private Boolean isDepTimeAscending = true;
     private Boolean isArrTimeAscending = true;
@@ -58,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements ResponseListener,
     }
 
     private void setUpController() {
-        recyclerAdapter = new RecyclerAdapter(dataList);
+        recyclerAdapter = new RecyclerAdapter(dataList, airlineCodeMap, airportCodeMap, providersList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -98,6 +103,9 @@ public class HomeActivity extends AppCompatActivity implements ResponseListener,
 
         dataList.clear();
         dataList.addAll(parseDataResponse.getFlighDataItemsList());
+        airlineCodeMap.putAll(parseDataResponse.getAirlineCodeMap());
+        airportCodeMap.putAll(parseDataResponse.getAirportCodeMap());
+        providersList.putAll(parseDataResponse.getProvidersList());
         recyclerAdapter.notifyDataSetChanged();
 
     }
