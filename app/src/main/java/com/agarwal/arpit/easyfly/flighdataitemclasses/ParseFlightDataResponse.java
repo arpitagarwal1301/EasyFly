@@ -118,15 +118,19 @@ public class ParseFlightDataResponse {
                 //Parsing Fares Data
                 JSONArray array = object.getJSONArray(KEY_FARES_ARRAY);
                 List<FareItemDao> list = new ArrayList<>();
+                int minFare = Integer.MAX_VALUE;
                 for (int j = 0; j < array.length(); j++) {
                     JSONObject fareObject = array.getJSONObject(j);
                     FareItemDao fareItemDao = new FareItemDao();
                     fareItemDao.setProviderId(fareObject.getString(KEY_PROVIDER_ID));
                     fareItemDao.setFare(fareObject.getString(KEY_FARE));
-
+                    int fare = Integer.parseInt(fareObject.getString(KEY_FARE));
+                    if (minFare > fare) {
+                        minFare = fare;
+                    }
                     list.add(fareItemDao);
                 }
-
+                itemDao.setMinFare(String.valueOf(minFare));
                 itemDao.setFares(list);
 
                 //Adding the final parsed data into the list

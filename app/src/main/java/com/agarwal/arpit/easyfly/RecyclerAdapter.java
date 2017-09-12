@@ -1,6 +1,7 @@
 package com.agarwal.arpit.easyfly;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,10 @@ import android.widget.TextView;
 import com.agarwal.arpit.easyfly.flighdataitemclasses.FareItemDao;
 import com.agarwal.arpit.easyfly.flighdataitemclasses.FlightItemDao;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by arpitagarwal on 12/09/17.
@@ -38,8 +42,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         FlightItemDao data = mDataList.get(position);
         holder.ori.setText(data.getOriginCode());
         holder.dest.setText(data.getDestinationCode());
-        holder.dept_time.setText(data.getDepartureTime());
-        holder.arr_time.setText(data.getArrivalTime());
+        holder.dept_time.setText(getTimeStamp(data.getDepartureTime()));
+        holder.arr_time.setText(getTimeStamp(data.getArrivalTime()));
         holder.provider_fare.setText("");
         for (FareItemDao itemDao : data.getFares()) {
             holder.provider_fare.append(itemDao.getProviderId() + " - " + itemDao.getFare() + " , ");
@@ -76,6 +80,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             provider_fare = itemView.findViewById(R.id.provider_fare);
             airline = itemView.findViewById(R.id.airline);
             className = itemView.findViewById(R.id.className);
+        }
+    }
+
+    //Converting epoch time to desirable format
+    private String getTimeStamp(String timeInMilli) {
+        if (!TextUtils.isEmpty(timeInMilli)) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+            return simpleDateFormat.format(new Date(Long.parseLong(timeInMilli)));
+        } else {
+            return "";
         }
     }
 }
