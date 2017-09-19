@@ -1,6 +1,15 @@
 EasyFly app for displaying flights data 
 
-Function include :
+Functionality and libraries highlights :
+
+1)Volley library
+2)Java json parsing
+3)RecyclerView,Butteknife libraries
+3)Reusable network class
+4)Sorting
+5)Orientation change support
+
+About the app :
 
 1.Display every flight clearly with relevant information like provider-wise fares, travel class,
 take-off/landing times, airport names, flight duration, etc.
@@ -13,9 +22,5 @@ landing times.
 Data parsed from URL :
 http://www.mocky.io/v2/5979c6731100001e039edcb3
 
-Technology and libraries used
-1.Volley
-2.Butterknife
-3.RecyclerView
 
 
